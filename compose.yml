@@ -5,6 +5,8 @@ services:
     environment:
       - REPO=${GIT_REPO}
       - TOKEN=${GIT_TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Монтирование Docker-сокета
     deploy:
       mode: replicated
       replicas: 1
@@ -15,6 +17,7 @@ services:
         reservations:
           cpus: '0.25'
           memory: 128M
+
   postgres:
     image: postgres:latest
     container_name: postgres_db
