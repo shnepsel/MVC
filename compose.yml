@@ -5,8 +5,8 @@ services:
     environment:
       - REPO=${GIT_REPO}
       - TOKEN=${GIT_TOKEN}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  # Монтирование Docker-сокета
+        # volumes:
+          # - /var/run/docker.sock:/var/run/docker.sock  # Монтирование Docker-сокета
     deploy:
       mode: replicated
       replicas: 1
