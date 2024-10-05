@@ -1,4 +1,4 @@
-name: Auto-Deploy Project
+name: Deploy Project
 
 on:
   push:
@@ -14,16 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install sudo package
-        run: apt update && apt install sudo
-
-      - name: Update and install Docker and Docker Compose
+      - name: Install Docker
         run: |
-          sudo apt-get update
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sh get-docker.sh
+          chmod +x install_docker.sh
+          ./install_docker.sh
 
-      - name: Run Docker Compose with environment variables
+      - name: Run Docker Compose
         run: |
           docker compose up -d --scale runner=1
         env:
