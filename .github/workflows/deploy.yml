@@ -1,0 +1,29 @@
+name: Auto-Deploy Project
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update and install Docker and Docker Compose
+        run: |
+          sudo apt-get update
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+          sudo apt-get install docker-compose-plugin -y
+
+      - name: Run Docker Compose with environment variables
+        run: |
+          docker compose up -d --scale runner=1
+        env:
+          GIT_REPO: shnepsel/MVC
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
